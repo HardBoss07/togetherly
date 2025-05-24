@@ -22,10 +22,13 @@ services:
     ports:
       - "${BACKEND_PORT}:8080"
     volumes:
-      - ./backend:/app
+      - ./backend:/app  # Mount backend source code for hot reload
+      - m2-repo:/root/.m2  # Cache Maven dependencies
     working_dir: /app
     env_file:
       - ./backend/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-Dspring.devtools.restart.poll-interval=1000
 
   frontend:
     build: ./frontend
@@ -42,3 +45,4 @@ services:
 
 volumes:
   db-data:
+  m2-repo:
