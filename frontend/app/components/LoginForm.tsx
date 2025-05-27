@@ -7,7 +7,7 @@ export default function LoginForm() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const ENV_API = process.env.REACT_APP_ENV_API_URL;
+    const ENV_API = process.env.NEXT_PUBLIC_API_URL;
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
