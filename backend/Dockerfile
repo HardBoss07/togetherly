@@ -1,7 +1,7 @@
 # Use Maven + JDK base image for dev (includes mvnw)
-FROM maven:3.8.6-openjdk-17-slim
+FROM maven:latest
 
-WORKDIR /app
+WORKDIR /backend
 
 # Copy only pom.xml and mvnw to leverage Docker cache
 COPY pom.xml .
