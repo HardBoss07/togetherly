@@ -1,70 +1,70 @@
--- Use the database
+-- Create and use the database
 CREATE DATABASE IF NOT EXISTS togetherly;
 USE togetherly;
 
--- Start transaction to ensure atomic schema changes
+-- Start transaction
 START TRANSACTION;
 
--- Drop tables in reverse dependency order to avoid FK conflicts on drop
+-- Drop tables in reverse dependency order
 DROP TABLE IF EXISTS tasks;
 DROP TABLE IF EXISTS team_memberships;
 DROP TABLE IF EXISTS teams;
 DROP TABLE IF EXISTS users;
 
--- Users table: stores individual user accounts
+-- Users table
 CREATE TABLE users
 (
-    user_id    INT AUTO_INCREMENT PRIMARY KEY,     -- Unique user identifier
-    username   VARCHAR(50)  NOT NULL UNIQUE,       -- Unique username
-    password   VARCHAR(255) NOT NULL,              -- Hashed password
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- When user was created
+    user_id    BIGINT AUTO_INCREMENT PRIMARY KEY, -- Use BIGINT for compatibility with Java long
+    username   VARCHAR(50)  NOT NULL UNIQUE,
+    password   VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Teams table: stores teams/groups owned by a user
+-- Teams table
 CREATE TABLE teams
 (
-    team_id    INT AUTO_INCREMENT PRIMARY KEY,      -- Unique team identifier
-    team_owner INT NOT NULL,                        -- FK to users.user_id (team creator/owner)
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- When team was created
+    team_id    BIGINT AUTO_INCREMENT PRIMARY KEY,
+    team_owner BIGINT NOT NULL, -- FK to users.user_id
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (team_owner) REFERENCES users (user_id)
-        ON DELETE CASCADE                           -- If owner deleted, delete team
+        ON DELETE CASCADE
 );
 
--- Team memberships: links users to teams (many-to-many relationship)
+-- Team memberships (many-to-many users <-> teams)
 CREATE TABLE team_memberships
 (
-    team_id   INT NOT NULL,                        -- FK to teams.team_id
-    user_id   INT NOT NULL,                        -- FK to users.user_id
-    joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- When user joined the team
-    PRIMARY KEY (team_id, user_id),                -- Composite PK prevents duplicate memberships
+    team_id   BIGINT NOT NULL,
+    user_id   BIGINT NOT NULL,
+    joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (team_id, user_id),
     FOREIGN KEY (team_id) REFERENCES teams (team_id)
-        ON DELETE CASCADE,                         -- If team deleted, remove memberships
+        ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users (user_id)
-        ON DELETE CASCADE                          -- If user deleted, remove memberships
+        ON DELETE CASCADE
 );
 
--- Tasks table: stores tasks linked to teams and assigned users
+-- Tasks table
 CREATE TABLE tasks
 (
-    task_id             INT AUTO_INCREMENT PRIMARY KEY,                                          -- Unique task identifier
-    team_fk             INT       NOT NULL,                                                      -- FK to teams.team_id
-    assigned_to         INT                                           DEFAULT NULL,              -- FK to users.user_id, NULL means assigned to @everyone in the team
-    done_by             INT                                           DEFAULT NULL,              -- FK to users.user_id, user who completed the task (nullable)
-    time_estimate       TIME,                                                                    -- Estimated time to complete (e.g., '01:30:00')
-    description         TEXT,                                                                    -- Task description/details
-    is_recurring        BOOLEAN                                       DEFAULT FALSE,             -- Is this a recurring task?
-    recurrence_interval ENUM ('daily', 'weekly', 'monthly', 'yearly') DEFAULT NULL,              -- Recurrence frequency
-    status              VARCHAR(20)                                   DEFAULT 'pending',         -- Task status (pending, in_progress, completed, etc.)
-    created_at          TIMESTAMP                                     DEFAULT CURRENT_TIMESTAMP, -- Task creation timestamp
-    completed_at        TIMESTAMP NULL                                DEFAULT NULL,              -- When task was marked completed
+    task_id             BIGINT AUTO_INCREMENT PRIMARY KEY,
+    team_fk             BIGINT    NOT NULL,                                         -- FK to teams.team_id
+    assigned_to         BIGINT                                        DEFAULT NULL, -- FK to users.user_id (including -1 for everyone)
+    done_by             BIGINT                                        DEFAULT NULL, -- FK to users.user_id
+    time_estimate       TIME,                                                       -- e.g., '01:30:00'
+    description         TEXT,
+    is_recurring        BOOLEAN                                       DEFAULT FALSE,
+    recurrence_interval ENUM ('daily', 'weekly', 'monthly', 'yearly') DEFAULT NULL,
+    status              VARCHAR(20)                                   DEFAULT 'pending',
+    created_at          TIMESTAMP                                     DEFAULT CURRENT_TIMESTAMP,
+    completed_at        TIMESTAMP NULL                                DEFAULT NULL,
 
     FOREIGN KEY (team_fk) REFERENCES teams (team_id)
-        ON DELETE CASCADE,                                                                       -- Delete tasks if team is deleted
+        ON DELETE CASCADE,
     FOREIGN KEY (assigned_to) REFERENCES users (user_id)
-        ON DELETE SET NULL,                                                                      -- If assigned user deleted, set assigned_to to NULL (@everyone)
+        ON DELETE SET NULL,
     FOREIGN KEY (done_by) REFERENCES users (user_id)
-        ON DELETE SET NULL                                                                       -- If completing user deleted, clear done_by
+        ON DELETE SET NULL
 );
 
--- Commit all changes atomically
+-- Commit all changes
 COMMIT;
