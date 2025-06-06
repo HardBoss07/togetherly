@@ -2,22 +2,33 @@ package ch.bosshard.matteo.togetherly.classes.entity;
 
 import jakarta.persistence.*;
 
+import java.sql.Timestamp;
+
 @Entity
 @Table(name = "users")
 public class User {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
 
-    @Column(unique = true)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")  // maps to DB column user_id
+    private Long id;
+
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
+    @Column(name = "password", nullable = false)  // maps to DB column password
     private String hashedPassword;
 
-    public long getId() {
+    @Column(name = "created_at", insertable = false, updatable = false)
+    private Timestamp createdAt;
+
+    // Getters and setters
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -36,4 +47,10 @@ public class User {
     public void setHashedPassword(String hashedPassword) {
         this.hashedPassword = hashedPassword;
     }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    // Timestamp setting gets handled by database
 }
