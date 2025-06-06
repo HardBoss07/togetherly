@@ -68,3 +68,12 @@ CREATE TABLE tasks
 
 -- Commit all changes
 COMMIT;
+
+-- User creation and permission setup
+CREATE USER IF NOT EXISTS 'togetherly_admin'@'%' IDENTIFIED BY 'togetherly_admin';
+GRANT ALL PRIVILEGES ON togetherly.* TO 'togetherly_admin'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+CREATE USER IF NOT EXISTS 'togetherly_backend'@'%' IDENTIFIED BY 'togetherly_backend';
+GRANT ALL PRIVILEGES ON togetherly.* TO 'togetherly_backend'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
