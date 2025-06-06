@@ -21,6 +21,7 @@ services:
       - $FRONTEND_PORT:3000
     volumes:
       - ./frontend:/app
+      - ./frontend/.env.local:/app/.env.local
       - /app/node_modules
     env_file:
       - ./frontend/.env.local
