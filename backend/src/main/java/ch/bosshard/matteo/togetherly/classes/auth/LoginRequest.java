@@ -1,7 +1,12 @@
 package ch.bosshard.matteo.togetherly.classes.auth;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class LoginRequest {
+    @NotBlank
     private String username;
+
+    @NotBlank
     private String password;
 
     public String getUsername() {
