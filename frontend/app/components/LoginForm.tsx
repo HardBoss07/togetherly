@@ -12,11 +12,11 @@ export default function LoginForm() {
     const ENV_API = process.env.NEXT_PUBLIC_API_URL;
 
     async function handleSubmit(e: React.FormEvent) {
-        console.log("Form submitted with:", { username, password });
+        console.log("Form submitted with:", {username, password});
 
         e.preventDefault();
 
-        console.log("Form submitted with after preventDefault:", { username, password });
+        console.log("Form submitted with after preventDefault:", {username, password});
 
         try {
             const res = await fetch(`${ENV_API}/api/auth/login`, {
@@ -27,10 +27,8 @@ export default function LoginForm() {
 
             if (res.ok) {
                 const data = await res.json();
-                localStorage.setItem("token", data.token); // Store the JWT in localStorage
-                alert("Logged in!");
-
-            // FUTURE    router.push("/to-some-page");
+                localStorage.setItem("token", data.token);
+                router.push("/profile");
             } else {
                 const error = await res.json();
                 alert("Login failed: " + (error.message || "Unknown error"));

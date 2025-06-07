@@ -1,0 +1,40 @@
+# --- General ---
+node_modules/
+dist/
+build/
+.DS_Store
+
+# --- Next.js ---
+.next/
+out/
+
+# --- Spring Boot / Maven / Gradle ---
+target/
+*.iml
+*.class
+.gradle/
+build/
+logs/
+*.log
+
+# --- Docker ---
+**/.dockerignore
+docker-compose.override.yml
+docker-compose.override.yaml
+docker-compose.local.yml
+docker-compose.local.yaml
+docker-volume/
+tmp/
+
+# --- IntelliJ / VSCode ---
+.idea/
+.vscode/
+
+# --- OS ---
+Thumbs.db
+ehthumbs.db
+
+# --- Ignore all .env.* EXCEPT the actual .env files ---
+.env.*
+!.env
+!.env.local

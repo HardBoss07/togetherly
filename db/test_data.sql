@@ -2,13 +2,13 @@ USE togetherly;
 
 -- Insert special 'everyone' user with user_id = -1
 INSERT INTO users (user_id, username, password)
-VALUES (-1, 'everyone', 'everyone');
+VALUES (-1, 'everyone', '$2a$12$QWZE1h/DEx5P1ml7AXENMO9NA0stv8Kemao9RaylUa.ozVYwxyLz2');
 
 -- Insert normal users, auto_increment user_id
 INSERT INTO users (username, password)
-VALUES ('user1', 'user1'),
-       ('user2', 'user2'),
-       ('user3', 'user3');
+VALUES ('user1', '$2a$12$6R4OECjFmsGtlj8iDsBLfuWkngGY2ihWuveLdxXwco9.qJIPdFToi'),
+       ('user2', '$2a$12$xyVLdZcSBsiCTQzJTmf1X.nfojOsWDcMyGQNdwXsvBF9EvtfbG8UK'),
+       ('user3', '$2a$12$2gCJLt3/VE0nSZQjXt/DYub2kKxXKLP/TuIUXZ.HDntZD88JOu6F2');
 
 -- Insert team owned by user1
 INSERT INTO teams (team_owner)

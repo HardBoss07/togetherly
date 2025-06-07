@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useState } from "react";
-import InputField from "./InputField";
+import React, {useState} from "react";
+import InputField from "../components/InputField";
+import {useRouter} from "next/navigation";
 
 export default function SignupForm() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
+    const router = useRouter();
 
     const ENV_API = process.env.NEXT_PUBLIC_API_URL;
 
@@ -18,17 +20,24 @@ export default function SignupForm() {
             return;
         }
 
-        const res = await fetch(`${ENV_API}/api/auth/signup`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ username, password }),
-        });
+        try {
+            const res = await fetch(`${ENV_API}/api/auth/signup`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({username, password}),
+            });
 
-        if (res.ok) {
-            alert("Signed up successfully!");
-        } else {
-            const msg = await res.text();
-            alert("Signup failed: " + msg);
+            if (res.ok) {
+                const data = await res.json();
+                localStorage.setItem("token", data.token);
+                router.push("/profile");
+            } else {
+                const error = await res.json();
+                alert("Signup failed: " + (error.message || "Unknown error"));
+            }
+        } catch (err) {
+            console.error("Signup error:", err);
+            alert("Something went wrong");
         }
     }
 
