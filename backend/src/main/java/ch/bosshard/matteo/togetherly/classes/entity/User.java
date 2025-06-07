@@ -1,8 +1,11 @@
 package ch.bosshard.matteo.togetherly.classes.entity;
 
+import ch.bosshard.matteo.togetherly.classes.entity.team_membership.TeamMembership;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -21,6 +24,9 @@ public class User {
 
     @Column(name = "created_at", insertable = false, updatable = false)
     private Timestamp createdAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TeamMembership> teamMemberships = new ArrayList<>();
 
     // Getters and setters
 
