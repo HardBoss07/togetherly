@@ -2,6 +2,7 @@
 
 import {useEffect, useState} from "react";
 import {decodeJwt, JwtPayload} from "@/util/decodeJwt";
+import UserTeams from "@/app/components/UserTeams";
 
 export default function ProfilePage() {
     const [username, setUsername] = useState<string | null>(null);
@@ -28,6 +29,8 @@ export default function ProfilePage() {
             <h1>Profile Page</h1>
             <p><strong>Username:</strong> {username}</p>
             <p><strong>JWT Token:</strong> {token}</p>
+            <p><strong>Teams:</strong></p>
+            <UserTeams token={token}/>
         </div>
     );
 }
