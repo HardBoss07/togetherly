@@ -1,4 +1,4 @@
-package ch.bosshard.matteo.togetherly.classes.util;
+package ch.bosshard.matteo.togetherly.classes.util.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

@@ -11,4 +11,5 @@ import java.util.List;
 public interface TeamMembershipRepository extends JpaRepository<TeamMembership, TeamMembershipId> {
     List<TeamMembership> findByUserId (Long userId); // get all teams a user is in
     List<TeamMembership> findByTeamId (Long teamId); // get all users in a team
+
 }

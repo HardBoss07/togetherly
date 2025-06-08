@@ -1,4 +1,4 @@
-package ch.bosshard.matteo.togetherly.classes.util;
+package ch.bosshard.matteo.togetherly.classes.util.jwt;
 
 public class JwtResponse {
     private String token;
