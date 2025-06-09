@@ -24,7 +24,8 @@ CREATE TABLE users
 CREATE TABLE teams
 (
     team_id    BIGINT AUTO_INCREMENT PRIMARY KEY,
-    team_owner BIGINT NOT NULL, -- FK to users.user_id
+    team_name  VARCHAR(50) NOT NULL,
+    team_owner BIGINT      NOT NULL, -- FK to users.user_id
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (team_owner) REFERENCES users (user_id)
         ON DELETE CASCADE

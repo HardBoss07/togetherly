@@ -1,3 +1,5 @@
+# noinspection SqlNoDataSourceInspectionForFile
+
 USE togetherly;
 
 -- Insert special 'everyone' user with user_id = -1
@@ -11,8 +13,11 @@ VALUES ('user1', '$2a$12$6R4OECjFmsGtlj8iDsBLfuWkngGY2ihWuveLdxXwco9.qJIPdFToi')
        ('user3', '$2a$12$2gCJLt3/VE0nSZQjXt/DYub2kKxXKLP/TuIUXZ.HDntZD88JOu6F2');
 
 -- Insert team owned by user1
-INSERT INTO teams (team_owner)
-VALUES ((SELECT user_id FROM users WHERE username = 'user1'));
+INSERT INTO teams (team_owner, team_name)
+VALUES (
+        (SELECT user_id FROM users WHERE username = 'user1'),
+        'Test Team 1'
+       );
 
 -- Get the created team_id
 SET @teamId = LAST_INSERT_ID();
