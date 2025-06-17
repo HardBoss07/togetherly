@@ -15,6 +15,9 @@ public class Team {
     @Column(name = "team_id")  // maps to DB column team_id
     private Long id;
 
+    @Column(name = "team_name")
+    private String name;
+
     @Column(name = "team_owner")
     private Long owner;
 
@@ -46,5 +49,13 @@ public class Team {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

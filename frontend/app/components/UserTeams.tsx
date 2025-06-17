@@ -5,9 +5,10 @@ import {decodeJwt} from "@/util/decodeJwt";
 
 interface Team {
     id: number;
+    name: string;
 }
 
-export default function UserTeams({token}: {token: string}) {
+export default function UserTeams({token}: { token: string }) {
     const [teams, setTeams] = useState<Team[]>([]);
     const ENV_API = process.env.NEXT_PUBLIC_API_URL;
 
@@ -26,10 +27,21 @@ export default function UserTeams({token}: {token: string}) {
     }, [token, ENV_API]);
 
     return (
-      <ul>
-          {teams.map((team) => (
-              <li key={team.id}>Team ID: {team.id}</li>
-          ))}
-      </ul>
+        <table>
+            <thead>
+            <tr>
+                <th>Team ID</th>
+                <th>Team Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            {teams.map((team) => (
+                <tr key={team.id}>
+                    <td>{team.id}</td>
+                    <td>{team.name}</td>
+                </tr>
+            ))}
+            </tbody>
+        </table>
     );
 }
