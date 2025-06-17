@@ -2,7 +2,7 @@
 
 import {useEffect, useState} from "react";
 import {decodeJwt, JwtPayload} from "@/util/decodeJwt";
-import UserTeams from "@/app/components/UserTeams";
+import UserTeams from "@/components/UserTeams";
 
 export default function ProfilePage() {
     const [username, setUsername] = useState<string | null>(null);

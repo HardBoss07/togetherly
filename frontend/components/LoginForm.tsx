@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useState} from "react";
-import InputField from "../components/InputField";
+import InputField from "./InputField";
 import {useRouter} from "next/navigation";
 
 export default function LoginForm() {
