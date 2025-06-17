@@ -9,3 +9,8 @@
 
 **Restart Backend:** `\togetherly> docker-compose up -d backend`
 **Rebuild Backend:** `\togetherly> docker-compose build backend`
+
+## Comined
+
+**Restart Backend:** `\togetherly> docker-compose up -d backend frontend`
+**Rebuild Backend:** `\togetherly> docker-compose build backend frontend`
