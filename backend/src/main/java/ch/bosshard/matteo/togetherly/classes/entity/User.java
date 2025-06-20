@@ -1,6 +1,7 @@
 package ch.bosshard.matteo.togetherly.classes.entity;
 
 import ch.bosshard.matteo.togetherly.classes.entity.team_membership.TeamMembership;
+import ch.bosshard.matteo.togetherly.enums.Role;
 import jakarta.persistence.*;
 
 import java.sql.Timestamp;
@@ -27,6 +28,8 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TeamMembership> teamMemberships = new ArrayList<>();
+
+    private  List<Role> roles = new ArrayList<>();
 
     // Getters and setters
 
@@ -56,6 +59,14 @@ public class User {
 
     public Timestamp getCreatedAt() {
         return createdAt;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     // Timestamp setting gets handled by database

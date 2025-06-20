@@ -7,6 +7,7 @@ import ch.bosshard.matteo.togetherly.classes.repository.UserRepository;
 import ch.bosshard.matteo.togetherly.classes.util.ApiResponse;
 import ch.bosshard.matteo.togetherly.classes.util.jwt.JwtResponse;
 import ch.bosshard.matteo.togetherly.classes.util.jwt.JwtUtil;
+import ch.bosshard.matteo.togetherly.enums.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -46,7 +48,8 @@ public class AuthController {
         user.setHashedPassword(passwordEncoder.encode(request.getPassword()));
         userRepository.save(user);
 
-        String token = jwtUtil.generateToken(user.getUsername());
+        // Always assign USER role here:
+        String token = jwtUtil.generateToken(user.getUsername(), List.of(Role.USER));
         logger.info("User registered successfully: {}", user.getUsername());
 
         return ResponseEntity.ok(new JwtResponse(token));
@@ -61,7 +64,8 @@ public class AuthController {
                     .body(new ApiResponse("Invalid credentials"));
         }
 
-        String token = jwtUtil.generateToken(userOpt.get().getUsername());
+        // Always assign USER role here as well:
+        String token = jwtUtil.generateToken(userOpt.get().getUsername(), List.of(Role.USER));
         logger.info("User logged in: {}", userOpt.get().getUsername());
         return ResponseEntity.ok(new JwtResponse(token));
     }

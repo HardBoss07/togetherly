@@ -16,7 +16,7 @@ VALUES ('user1', '$2a$12$6R4OECjFmsGtlj8iDsBLfuWkngGY2ihWuveLdxXwco9.qJIPdFToi')
 INSERT INTO teams (team_owner, team_name)
 VALUES (
         (SELECT user_id FROM users WHERE username = 'user1'),
-        'Test Team 1'
+        'testteam1'
        );
 
 -- Get the created team_id
